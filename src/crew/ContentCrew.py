@@ -9,7 +9,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 from typing import Dict, Any, List, Optional
 import yaml
-import json
 from datetime import datetime, timezone
 
 # 找到项目根目录并加载环境变量
@@ -79,6 +78,23 @@ class ContentCrew:
             self.agents_config = self._get_default_agents_config()
             self.tasks_config = self._get_default_tasks_config()
 
+    def _initialize_agents(self):
+        """初始化所有智能体"""
+        try:
+            print("🚀 正在初始化智能体...")
+
+            # 创建智能体实例
+            self.researcher_agent_instance = ResearcherAgent()
+            self.analyst_agent_instance = AnalystAgent()
+            self.writer_agent_instance = WriterAgent()
+            self.editor_agent_instance = EditorAgent()
+
+            print("✅ 所有智能体实例创建成功")
+
+        except Exception as e:
+            self.logger.error(f"❌ 智能体初始化失败: {str(e)}")
+            raise
+
     def _get_default_agents_config(self) -> Dict[str, Any]:
         """获取默认智能体配置"""
         return {
@@ -139,23 +155,6 @@ class ContentCrew:
                 'context': ['research_task', 'analysis_task', 'writing_task']
             }
         }
-
-    def _initialize_agents(self):
-        """初始化所有智能体"""
-        try:
-            print("🚀 正在初始化智能体...")
-
-            # 创建智能体实例
-            self.researcher_agent_instance = ResearcherAgent()
-            self.analyst_agent_instance = AnalystAgent()
-            self.writer_agent_instance = WriterAgent()
-            self.editor_agent_instance = EditorAgent()
-
-            print("✅ 所有智能体实例创建成功")
-
-        except Exception as e:
-            self.logger.error(f"❌ 智能体初始化失败: {str(e)}")
-            raise
 
     def create_content(self,
                        topic: str,

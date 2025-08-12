@@ -2,7 +2,6 @@
 研究员智能体 - 负责信息收集和研究
 """
 import os
-import sys
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
@@ -29,6 +28,7 @@ class ResearcherAgent:
     """研究员智能体 - 专门负责信息收集和验证"""
 
     def __init__(self):
+        # 日志记录器
         self.logger = logging.getLogger(__name__)
         self._initialize_tools()
 
